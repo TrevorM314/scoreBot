@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   let text = req.body.text;
   let data = req.body;
   let commands = {
@@ -49,7 +49,7 @@ app.post('/', (req, res) => {
       }
     }
     fs.writeFileSync("./score.json", JSON.stringify(scores, null, 2));
-    answer(name + "---" + scores[user_id]["score"])
+    await answer(name + "---" + scores[user_id]["score"])
     res.send(name + "---" + scores[user_id]["score"].toString());
   }
 
