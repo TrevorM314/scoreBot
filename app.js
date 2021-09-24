@@ -41,15 +41,16 @@ app.post('/', (req, res) => {
     let name = data.name;
     if (scores[user_id] !== undefined) {
       scores[user_id]["score"] ++;
-    } else {
+    } 
+    else {
       scores[user_id] = {
-        name,
+        name: name,
         score: 1
       }
     }
     fs.writeFileSync("./score.json", JSON.stringify(scores, null, 2));
-    //answer(name + "---" + scores[user_id]["score"])
-    res.send(name + "---" + scores[user_id]["score"]);
+    answer(name + "---" + scores[user_id]["score"])
+    res.send(name + "---" + scores[user_id]["score"].toString());
   }
 
   else if (text.match(commands.scores)) {
@@ -57,7 +58,7 @@ app.post('/', (req, res) => {
     Object.keys(scores).forEach(key => {
       response = response + scores[key]["name"] + "---" + scores[key]["score"] + "\n";
     });
-    //answer(response);
+    answer(response);
     res.send(response);
   }
 
