@@ -74,13 +74,11 @@ app.listen(port, () => {
 module.exports = app;
 
 answer = function(message) {
+  return botId;
   axios.post('https://api.groupme.com/v3/bots/post', 
     {
         bot_id: botId,
         text: message
     }
   )
-  .then(response => {
-      console.log(response);
-  })
 }
