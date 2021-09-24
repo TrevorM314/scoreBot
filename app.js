@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/', async (req, res) => {
+app.post('/', (req, res) => {
   let text = req.body.text;
   let data = req.body;
   let commands = {
@@ -49,8 +49,10 @@ app.post('/', async (req, res) => {
       }
     }
     fs.writeFileSync("./score.json", JSON.stringify(scores, null, 2));
-    await answer(name + "---" + scores[user_id]["score"])
-    res.send(name + "---" + scores[user_id]["score"].toString());
+    Promise.resolve(answer(name + "---" + scores[user_id]["score"]))
+    .then( () => {
+      res.send(name + "---" + scores[user_id]["score"].toString());
+    })
   }
 
   else if (text.match(commands.scores)) {
@@ -58,8 +60,10 @@ app.post('/', async (req, res) => {
     Object.keys(scores).forEach(key => {
       response = response + scores[key]["name"] + "---" + scores[key]["score"] + "\n";
     });
-    await answer(response);
-    res.send(response);
+    Promise.resolve(answer(response))
+    .then(() => {
+      res.send(response);
+    })
   }
 
   else {
@@ -74,7 +78,7 @@ app.listen(port, () => {
 module.exports = app;
 
 answer = async function(message) {
-  await axios.post('https://api.groupme.com/v3/bots/post', 
+  return axios.post('https://api.groupme.com/v3/bots/post', 
     {
         bot_id: botId,
         text: message
