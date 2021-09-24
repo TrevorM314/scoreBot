@@ -58,8 +58,8 @@ app.post('/', (req, res) => {
     Object.keys(scores).forEach(key => {
       response = response + scores[key]["name"] + "---" + scores[key]["score"] + "\n";
     });
-    answer(response);
-    res.send(answer(response));
+    await answer(response);
+    res.send(response);
   }
 
   else {
@@ -73,9 +73,8 @@ app.listen(port, () => {
 
 module.exports = app;
 
-answer = function(message) {
-  return botId;
-  axios.post('https://api.groupme.com/v3/bots/post', 
+answer = async function(message) {
+  await axios.post('https://api.groupme.com/v3/bots/post', 
     {
         bot_id: botId,
         text: message
