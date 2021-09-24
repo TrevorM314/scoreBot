@@ -22,7 +22,8 @@ app.post('/', (req, res) => {
   let data = req.body;
   let commands = {
     hello: /^\/say hello$/,
-    add: /^\/add$/
+    add: /^\/add$/,
+    scores: /^\/scores$/
   }
 
   if (!text || !data.sender_id) {
@@ -47,7 +48,15 @@ app.post('/', (req, res) => {
       }
     }
     fs.writeFileSync("./score.json", JSON.stringify(scores, null, 2));
-    answer(name, scores[user_id]["score"])
+    answer(name + "---" + scores[user_id]["score"])
+  }
+
+  else if (text.match(commands.scores)) {
+    let response = ""
+    Object.keys(scores).forEach(key => {
+      response = response + scores[key]["name"] + "---" + scores[key]["score"] + "\n";
+    });
+    answer(response);
   }
 
   else {
@@ -61,11 +70,11 @@ app.listen(port, () => {
 
 module.exports = app;
 
-answer = function(name, score) {
+answer = function(message) {
   axios.post('https://api.groupme.com/v3/bots/post', 
     {
         bot_id: botId,
-        text: name + ": " + score
+        text: message
     }
   )
   .then(response => {
