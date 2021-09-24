@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const axios = require("axios");
 require("dotenv").config();
 
 const app = express();
@@ -17,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   let text = req.body.text;
   let data = req.body;
   let commands = {
@@ -29,6 +30,7 @@ app.post('/', (req, res) => {
   if (!text || !data.sender_id) {
     throw new Error("Text and user_id needed")
   }
+
   let scores = fs.readFileSync("./score.json", "utf-8");
   scores = JSON.parse(scores);
 
@@ -50,9 +52,8 @@ app.post('/', (req, res) => {
     }
     fs.writeFileSync("./score.json", JSON.stringify(scores, null, 2));
     Promise.resolve(answer(name + "---" + scores[user_id]["score"]))
-    .then( () => {
-      res.send(name + "---" + scores[user_id]["score"].toString());
-    })
+    .then(res.send(name + "---" + scores[user_id]["score"]))
+    .catch(err => {throw err});
   }
 
   else if (text.match(commands.scores)) {
@@ -60,10 +61,12 @@ app.post('/', (req, res) => {
     Object.keys(scores).forEach(key => {
       response = response + scores[key]["name"] + "---" + scores[key]["score"] + "\n";
     });
+    if (response === "") {
+      response = "No Scores Available";
+    }
     Promise.resolve(answer(response))
-    .then(() => {
-      res.send(response);
-    })
+    .then(res.send(response))
+    .catch(err => {throw err;});
   }
 
   else {
@@ -77,11 +80,16 @@ app.listen(port, () => {
 
 module.exports = app;
 
-answer = function(message) {
+answer = async function(message) {
+  console.log("Sending to groupme");
   return axios.post('https://api.groupme.com/v3/bots/post', 
     {
         bot_id: botId,
         text: message
     }
   )
+  .then(() => true)
+  .catch(err => {
+    throw err;
+  })
 }
