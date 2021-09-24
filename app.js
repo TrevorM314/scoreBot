@@ -56,7 +56,8 @@ app.post('/', (req, res) => {
     Object.keys(scores).forEach(key => {
       response = response + scores[key]["name"] + "---" + scores[key]["score"] + "\n";
     });
-    answer(response);
+    //answer(response);
+    res.send(response);
   }
 
   else {
