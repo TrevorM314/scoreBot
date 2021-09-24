@@ -11,9 +11,10 @@ const botId = process.env.BOT_ID;
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-  res.send("COMING SOON");
-  //npmres.send(fs.readFileSync("./score.json", "utf-8"));
+  //res.send("COMING SOON");
+  npmres.send(fs.readFileSync("./score.json", "utf-8"));
 });
+
 
 app.post('/', (req, res) => {
   let text = req.body.text;
@@ -22,7 +23,7 @@ app.post('/', (req, res) => {
     hello: /^\/say hello$/,
     add: /^\/add$/
   }
-  
+
   if (!text || !data.sender_id) {
     throw new Error("Text and user_id needed")
   }
