@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 
 const app = express();
-const port = 80;
+const port = process.env.PORT || 443;
 
 const botId = process.env.BOT_ID;
 
