@@ -6,7 +6,7 @@ require("dotenv").config();
 const app = express();
 const port = parseInt(process.env.PORT) || 3000;
 
-//const botId = process.env.BOT_ID;
+const botId = process.env.BOT_ID;
 
 app.use(bodyParser.json());
 
