@@ -1,5 +1,4 @@
 .env
 /node_modules
-score.json
 /test.js
 package-lock.json

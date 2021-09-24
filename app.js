@@ -19,11 +19,12 @@ app.get('/', (req, res) => {
 
 
 app.post('/', async (req, res) => {
+  let regex;
   let text = req.body.text;
   let data = req.body;
   let commands = {
     hello: /^\/say hello$/,
-    add: /^\/add$/,
+    add: /^\/add( \d+)?$/,
     scores: /^\/scores$/
   }
 
@@ -38,11 +39,17 @@ app.post('/', async (req, res) => {
     res.send(req.body);
   }
 
-  else if (text.match(commands.add)) {
+  else if (regex = text.match(commands.add)) {
     let user_id = data.sender_id;
     let name = data.name;
     if (scores[user_id] !== undefined) {
-      scores[user_id]["score"] ++;
+      let scoreIncr = parseInt(regex[1])
+      if (scoreIncr) {
+        scores[user_id]["score"] += scoreIncr;
+      }
+      else {
+        scores[user_id]["score"] ++;
+      }
     } 
     else {
       scores[user_id] = {
