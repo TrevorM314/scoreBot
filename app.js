@@ -48,7 +48,8 @@ app.post('/', (req, res) => {
       }
     }
     fs.writeFileSync("./score.json", JSON.stringify(scores, null, 2));
-    answer(name + "---" + scores[user_id]["score"])
+    //answer(name + "---" + scores[user_id]["score"])
+    res.send(name + "---" + scores[user_id]["score"]);
   }
 
   else if (text.match(commands.scores)) {
