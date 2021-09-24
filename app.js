@@ -54,7 +54,7 @@ app.post('/', async (req, res) => {
     else {
       scores[user_id] = {
         name: name,
-        score: 1
+        score: scoreIncr || 1
       }
     }
     fs.writeFileSync("./score.json", JSON.stringify(scores, null, 2));
