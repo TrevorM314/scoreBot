@@ -77,7 +77,7 @@ app.listen(port, () => {
 
 module.exports = app;
 
-answer = async function(message) {
+answer = function(message) {
   return axios.post('https://api.groupme.com/v3/bots/post', 
     {
         bot_id: botId,
