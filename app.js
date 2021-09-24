@@ -3,11 +3,15 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 
 const app = express();
-const port = 3000;
+const port = 80;
 
 const botId = process.env.BOT_ID;
 
 app.use(bodyParser.json());
+
+app.get('/', (res) => {
+  res.send("Coming soon");
+});
 
 app.post('/', (req, res) => {
   let text = req.body.text;
