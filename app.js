@@ -39,11 +39,12 @@ app.post('/', async (req, res) => {
     res.send(req.body);
   }
 
-  else if (regex = text.match(commands.add)) {
+  else if (text.match(commands.add)) {
+    regex = text.match(commands.add);
+    let scoreIncr = parseInt(regex[1])
     let user_id = data.sender_id;
     let name = data.name;
     if (scores[user_id] !== undefined) {
-      let scoreIncr = parseInt(regex[1])
       if (scoreIncr) {
         scores[user_id]["score"] += scoreIncr;
       }
