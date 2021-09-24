@@ -3,14 +3,15 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 
 const app = express();
-const port = process.env.PORT || 443;
+const port = process.env.PORT || 3000;
 
 const botId = process.env.BOT_ID;
 
 app.use(bodyParser.json());
 
 app.get('/', (res) => {
-  res.send("Coming soon");
+  res.send("COMING SOON");
+  res.send(fs.readFileSync("./score.json", "utf-8"));
 });
 
 app.post('/', (req, res) => {
