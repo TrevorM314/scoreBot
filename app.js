@@ -12,7 +12,8 @@ app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
   //res.send("COMING SOON");
-  npmres.send(fs.readFileSync("./score.json", "utf-8"));
+  let scores = fs.readFileSync("./score.json", "utf-8");
+  res.send(scores);
 });
 
 
