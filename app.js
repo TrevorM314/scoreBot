@@ -59,7 +59,7 @@ app.post('/', (req, res) => {
       response = response + scores[key]["name"] + "---" + scores[key]["score"] + "\n";
     });
     answer(response);
-    res.send(response);
+    res.send(answer(response));
   }
 
   else {
